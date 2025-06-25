@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unstoppabl | Real Estate Answered by AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #000000;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      font-family: 'Roboto', sans-serif;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+    }
+    input {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    button {
+      background-color: #ffffff;
+      color: #000000;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e5e5e5;
+    }
+    #response {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Unstoppabl</h1>
+    <p><strong>Real Estate | Answered by AI</strong></p>
+    <p>Ask any real estate question below and enter your ZIP code.</p>
+
+    <input type="text" id="question" placeholder="Type your real estate question" />
+    <input type="text" id="zip" placeholder="Enter your ZIP code" maxlength="5"/>
+    <button onclick="ask()">Ask</button>
+
+    <div id="response"></div>
+  </div>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById('question').value;
+      const zip = document.getElementById('zip').value;
+
+      const res = await fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, zip })
+      });
+
+      const data = await res.json();
+      document.getElementById('response').innerText = data.answer || 'No answer received.';
+    }
+  </script>
+</body>
+</html>
